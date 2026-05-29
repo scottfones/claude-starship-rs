@@ -1,0 +1,22 @@
+[package]
+name = "claude-starship-rs"
+version = "0.1.0"
+edition = "2024"
+description = "Claude Code statusline for starship prompt"
+license = "MIT"
+
+[lints.clippy]
+pedantic = "warn"
+nursery = "warn"
+
+[dependencies]
+chrono = "0.4"
+dirs = "5.0"
+git2 = "0.19"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "2.0"
+
+[profile.release]
+lto = true
+strip = true
