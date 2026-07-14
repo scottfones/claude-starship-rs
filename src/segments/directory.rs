@@ -27,7 +27,7 @@ impl DirectorySegment {
         let display_path = if path_str.starts_with(&home) {
             format!("{} ~{}", icons::FOLDER, &path_str[home.len()..])
         } else {
-            path_str.to_string()
+            format!("{} {}", icons::FOLDER, path_str)
         };
 
         // Split and truncate
