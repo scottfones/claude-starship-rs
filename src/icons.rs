@@ -15,6 +15,9 @@ pub const CLOCK: char = '\u{f017}';
 /// `CMake` icon (U+E794).
 pub const CMAKE: char = '\u{e794}';
 
+/// Cogs icon (U+F085).
+pub const COGS: char = '\u{f085}';
+
 /// C++ language icon (U+E61D).
 pub const CPP: char = '\u{e61d}';
 
@@ -26,6 +29,12 @@ pub const DOCKER: char = '\u{f308}';
 
 /// Elixir language icon (U+E62D).
 pub const ELIXIR: char = '\u{e62d}';
+
+/// Folder icon (U+EB83).
+pub const FOLDER: char = '\u{ea83}';
+
+/// Git icon (U+F02A2).
+pub const GIT: char = '\u{f02a2}';
 
 /// Go language icon (U+E627).
 pub const GO: char = '\u{e627}';
@@ -71,6 +80,9 @@ pub const RUBY: char = '\u{e791}';
 
 /// Rust language icon (U+F1617).
 pub const RUST: char = '\u{f1617}';
+
+/// Settings icon (U+EB52).
+pub const SETTINGS: char = '\u{eb52}';
 
 /// Scala language icon (U+E737).
 pub const SCALA: char = '\u{e737}';

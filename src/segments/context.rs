@@ -14,17 +14,17 @@ const EFFECTIVE_CONTEXT_PCT: u64 = 94;
 /// - Calculates % used based on effective context limit
 /// - Changes color based on usage level:
 ///   - Normal (bg3): < 75%
-///   - Warning (yellow): 75-89%
-///   - Critical (orange): 90%+
+///   - Warning (yellow): 75% <= x < 90%
+///   - Critical (orange): >= 90%
 /// - Last segment on line 2, outputs trailing arrow
 pub struct ContextSegment;
 
 impl ContextSegment {
     /// Determine the background color based on usage percentage.
     const fn get_color(used_pct: u64) -> Color {
-        if used_pct >= 95 {
+        if used_pct >= 90 {
             Color::Orange
-        } else if used_pct >= 85 {
+        } else if used_pct >= 75 {
             Color::Yellow
         } else {
             Color::Bg3
@@ -80,11 +80,11 @@ mod tests {
 
     #[test]
     fn test_color_thresholds() {
-        assert_eq!(ContextSegment::get_color(0), Color::Bg3);
-        assert_eq!(ContextSegment::get_color(74), Color::Bg3);
-        assert_eq!(ContextSegment::get_color(75), Color::Yellow);
-        assert_eq!(ContextSegment::get_color(89), Color::Yellow);
-        assert_eq!(ContextSegment::get_color(90), Color::Orange);
-        assert_eq!(ContextSegment::get_color(100), Color::Orange);
+        assert_eq!(ContextSegment::get_color(0), Color::Bg3, "test 0");
+        assert_eq!(ContextSegment::get_color(74), Color::Bg3, "test 0");
+        assert_eq!(ContextSegment::get_color(75), Color::Yellow, "test 75");
+        assert_eq!(ContextSegment::get_color(89), Color::Yellow, "test 89");
+        assert_eq!(ContextSegment::get_color(90), Color::Orange, "test 90");
+        assert_eq!(ContextSegment::get_color(100), Color::Orange, "test 100");
     }
 }

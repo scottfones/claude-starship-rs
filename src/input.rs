@@ -20,6 +20,10 @@ pub struct ClaudeInput {
     #[serde(default)]
     pub cwd: Option<String>,
 
+    /// Reasoning effort information.
+    #[serde(default)]
+    pub effort: Effort,
+
     /// Model information.
     #[serde(default)]
     pub model: Model,
@@ -34,6 +38,18 @@ pub struct ClaudeInput {
 pub struct Model {
     /// Display name of the model (e.g., "Opus 4.5").
     pub display_name: Option<String>,
+}
+
+/// Reasoning effort information.
+///
+/// Absent for models that do not support the reasoning effort parameter, so
+/// the level is stored as a raw string rather than a typed enum: an
+/// unrecognized value (a future tier) must not fail deserialization, since
+/// that would collapse the entire input to defaults in `main`.
+#[derive(Clone, Debug, Default, Deserialize)]
+pub struct Effort {
+    /// Effort level (e.g., "low", "medium", "high", "xhigh", "max").
+    pub level: Option<String>,
 }
 
 /// Workspace information.
@@ -131,6 +147,28 @@ mod tests {
         let json = r#"{"model":{"display_name":"Opus 4.5"}}"#;
         let input: ClaudeInput = serde_json::from_str(json).unwrap();
         assert_eq!(input.model.display_name.as_deref(), Some("Opus 4.5"));
+    }
+
+    #[test]
+    fn test_parse_effort() {
+        let json = r#"{"effort":{"level":"high"}}"#;
+        let input: ClaudeInput = serde_json::from_str(json).unwrap();
+        assert_eq!(input.effort.level.as_deref(), Some("high"));
+    }
+
+    #[test]
+    fn test_parse_effort_absent() {
+        let json = r"{}";
+        let input: ClaudeInput = serde_json::from_str(json).unwrap();
+        assert!(input.effort.level.is_none());
+    }
+
+    #[test]
+    fn test_parse_effort_unknown_level() {
+        // Forward-compat: an unrecognized level must still deserialize.
+        let json = r#"{"effort":{"level":"ultra"}}"#;
+        let input: ClaudeInput = serde_json::from_str(json).unwrap();
+        assert_eq!(input.effort.level.as_deref(), Some("ultra"));
     }
 
     #[test]

@@ -1,6 +1,7 @@
 //! Directory segment - displays the current working directory.
 
 use crate::colors::{Ansi, Color, PowerlineBuilder};
+use crate::icons;
 use crate::segments::{RenderContext, Segment};
 use std::path::Path;
 
@@ -24,7 +25,7 @@ impl DirectorySegment {
             .unwrap_or_default();
 
         let display_path = if path_str.starts_with(&home) {
-            format!("~{}", &path_str[home.len()..])
+            format!("{} ~{}", icons::FOLDER, &path_str[home.len()..])
         } else {
             path_str.to_string()
         };
