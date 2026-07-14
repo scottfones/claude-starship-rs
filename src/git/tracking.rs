@@ -14,7 +14,7 @@ impl TrackingSegment {
     /// Get the upstream branch name.
     fn get_upstream(repo: &Repository) -> Option<String> {
         let head = repo.head().ok()?;
-        let branch_name = head.shorthand()?;
+        let branch_name = head.shorthand().ok()?;
 
         let branch = repo
             .find_branch(branch_name, git2::BranchType::Local)

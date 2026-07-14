@@ -1,6 +1,7 @@
 //! Repository name segment - displays the Git repository name.
 
 use crate::colors::{Ansi, Color, PowerlineBuilder};
+use crate::icons;
 use crate::segments::{RenderContext, Segment};
 
 /// Repository name segment showing the Git repository name.
@@ -14,7 +15,7 @@ impl Segment for RepoNameSegment {
         let repo = ctx.git_repo?;
 
         let workdir = repo.workdir()?;
-        let repo_name = workdir.file_name()?.to_string_lossy();
+        let repo_name = format!("{} {}", icons::GIT, workdir.file_name()?.to_string_lossy());
 
         let output = PowerlineBuilder::new()
             .start_rounded(Color::Aqua, Color::Fg0)

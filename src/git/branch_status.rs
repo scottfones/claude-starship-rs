@@ -22,7 +22,7 @@ impl BranchStatusSegment {
         let head = repo.head().ok()?;
 
         if head.is_branch() {
-            head.shorthand().map(str::to_string)
+            head.shorthand().ok().map(String::from)
         } else {
             // Detached HEAD - show short commit hash
             head.target().map(|oid| format!("{:.7}", oid.to_string()))
@@ -87,7 +87,7 @@ impl BranchStatusSegment {
 
         // Get upstream branch
         let branch = repo
-            .find_branch(head.shorthand()?, git2::BranchType::Local)
+            .find_branch(head.shorthand().ok()?, git2::BranchType::Local)
             .ok()?;
         let upstream = branch.upstream().ok()?;
         let upstream_oid = upstream.get().target()?;
