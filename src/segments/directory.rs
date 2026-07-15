@@ -25,9 +25,9 @@ impl DirectorySegment {
             .unwrap_or_default();
 
         let display_path = if path_str.starts_with(&home) {
-            format!("{} ~{}", icons::FOLDER, &path_str[home.len()..])
+            &path_str[home.len()..]
         } else {
-            format!("{} {}", icons::FOLDER, path_str)
+            path_str.as_ref()
         };
 
         // Split and truncate
@@ -35,11 +35,12 @@ impl DirectorySegment {
 
         if components.len() > MAX_COMPONENTS {
             format!(
-                ".../{}",
+                "{} .../{}",
+                icons::FOLDER,
                 components[components.len() - MAX_COMPONENTS..].join("/")
             )
         } else {
-            display_path
+            format!("{} {}", icons::FOLDER, display_path)
         }
     }
 }
